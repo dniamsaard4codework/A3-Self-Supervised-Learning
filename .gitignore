@@ -157,6 +157,18 @@ ENV/
 env.bak/
 venv.bak/
 
+# --- A3 project: large/generated artifacts ---
+# CIFAR-10 download cache
+data/
+# Model checkpoints (reproduce with scripts.sh / scripts.ps1)
+saved/
+*.pt
+*.pth
+# figures/ and results/ are intentionally committed (README + notebook reference them)
+# README / notebook generator scripts — not part of the submission (deliverables are the
+# generated README.md and notebooks/*.ipynb themselves)
+scripts/
+
 # Spyder project settings
 .spyderproject
 .spyproject

@@ -1,0 +1,32 @@
+[project]
+name = "a3-self-supervised-learning"
+version = "0.1.0"
+description = "AIT DL A3 — Self-Supervised Learning (SimCLR / DINO / MAE) on CIFAR-10"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "torch>=2.7",
+    "torchvision>=0.22",
+    "timm>=1.0.9",
+    "scikit-learn>=1.4",
+    "tqdm>=4.66",
+    "matplotlib>=3.8",
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "pillow>=10.0",
+    "jupyter>=1.0",
+    "ipykernel>=6.29",
+    "nbconvert>=7.16",
+]
+
+# Pull torch/torchvision from the CUDA 12.8 wheel index so the RTX 5060 Ti
+# (Blackwell, sm_120) gets kernels. The default PyPI wheels are CPU-only on
+# Windows and would fail with "no kernel image for device".
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]
+torchvision = [{ index = "pytorch-cu128" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
