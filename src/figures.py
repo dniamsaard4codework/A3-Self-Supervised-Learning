@@ -13,8 +13,10 @@ from .data import eval_loaders
 
 
 @torch.no_grad()
-def _emb(feature_fn, device, num_workers):
-    _, tel = eval_loaders(num_workers=num_workers, mae=False)
+def _emb(feature_fn, device, num_workers, mae=False):
+    # MAE was trained/normalized with MAE_MEAN/MAE_STD, so its test features must be
+    # extracted under the same normalization (mae=True); SimCLR/DINO use CIFAR stats.
+    _, tel = eval_loaders(num_workers=num_workers, mae=mae)
     feats, labels = [], []
     for imgs, y in tel:
         feats.append(feature_fn(imgs.to(device)).cpu())
@@ -104,7 +106,7 @@ def generate_all_figures(results, device, saved_dir, fig_dir, num_workers=2, n_t
         embeddings["DINO (ViT-Tiny)"] = _emb(pipeline.dino_features(vit), device, num_workers)
     if mae_ckpt.exists():
         mae = pipeline.load_mae_full(str(mae_ckpt), device)
-        embeddings["MAE (ViT)"] = _emb(pipeline.mae_features(mae), device, num_workers)
+        embeddings["MAE (ViT)"] = _emb(pipeline.mae_features(mae), device, num_workers, mae=True)
     if len(embeddings) >= 2:
         visualize.plot_tsne(embeddings, n_points=n_tsne,
                             save_path=fig("tsne_comparison.png"), show=False)
