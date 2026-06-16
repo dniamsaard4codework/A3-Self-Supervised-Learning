@@ -1,6 +1,6 @@
 # A3 — Self-Supervised Learning (SimCLR · DINO · MAE)
 
-**AIT Deep Learning — Assignment 3 · st126235**
+DL-AIT Assignment 3 | Student: Dechathon Niamsa-ard [st126235]
 
 Implementation and comparison of the three major self-supervised learning families
 on CIFAR-10 — **SimCLR** (contrastive), **DINO** (self-distillation), and **MAE**
