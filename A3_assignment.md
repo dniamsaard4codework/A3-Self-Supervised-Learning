@@ -13,7 +13,7 @@
 
    b) Explain why removing centering causes collapse, and why removing local crops hurts representation quality.
 
-2. Train three MAE versions with `mask_ratio` ∈ {0.25, 0.50, 0.75} for 5 epochs each and fill in the table:
+2. Train three MAE versions with `mask_ratio` ∈ {0.25, 0.50, 0.75} for 50 epochs each and fill in the table:
 
    | Mask Ratio | Recon Loss | Linear Eval Acc |
    |---|---|---|

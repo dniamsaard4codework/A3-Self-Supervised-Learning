@@ -133,6 +133,8 @@ def do_train(args, device):
     if "recon_loss" in hist:
         record["recon_loss"] = hist["recon_loss"]
     persist(results, tag, record)
+    if tag == "mae_075_main":  # the 0.75 / long-schedule run is also the 0.75 ablation point
+        persist(results, "mae_ablation/0.75", record)
     results.setdefault("meta", {}).update(
         {"device": torch.cuda.get_device_name(0) if device.type == "cuda" else "CPU",
          "torch": torch.__version__, "seed": args.seed, "amp_bf16": args.amp})
@@ -167,6 +169,8 @@ def do_evaluate(args, device):
     rpath = Path(args.results_file)
     results = load_results(rpath)
     persist(results, tag, {"linear_acc": acc})
+    if tag == "mae_075_main":  # mirror to the 0.75 ablation point (same model)
+        persist(results, "mae_ablation/0.75", {"linear_acc": acc})
     save_results(results, rpath)
     print(f"recorded linear_acc -> {rpath} [{tag}]")
     return acc

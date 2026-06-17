@@ -22,15 +22,14 @@ probing** (freeze the encoder, train a single linear layer with labels).
 | DINO (Default) | 70.01% | 82.2s | self-distillation (2 global + 4 local, centering) |
 | DINO (no centering) | 28.42% | 110.4s | collapse ablation (loss→0, accuracy drops sharply) |
 | DINO (no local crops) | 64.00% | 59.7s | multi-crop ablation (`n_local=0`) |
-| MAE mask=0.75 | 48.14% | 13.4s | reconstruction — **main model, 50 ep** (5-ep ablation value is 38.51%, see Ex2) |
-| MAE mask=0.50 | 37.01% | 20.3s | masking ablation (5 ep) |
-| MAE mask=0.25 | 35.85% | 20.7s | masking ablation (5 ep) |
+| MAE mask=0.75 | 48.14% | 13.4s | reconstruction — main model (also the 0.75 ablation point) |
+| MAE mask=0.50 | 45.49% | 7.3s | masking ablation |
+| MAE mask=0.25 | 44.08% | 7.1s | masking ablation |
 <!-- RESULTS_TABLE_END -->
 
-*DINO variants & main MAE: 50 epochs; SimCLR: 30 epochs; MAE masking ablation: 5
-epochs each (per the assignment). Full measured numbers — including SimCLR and the
-three-way comparison — are in [results/results.json](results/results.json) and in the
-notebook's exercise tables.*
+*DINO variants & MAE (all mask ratios): 50 epochs; SimCLR: 30 epochs. Full measured
+numbers — including SimCLR and the three-way comparison — are in
+[results/results.json](results/results.json) and in the notebook's exercise tables.*
 
 ---
 
@@ -101,22 +100,21 @@ infer global, object-level context from a part. Dropping the local crops removes
 local→global prediction signal and most of the augmentation diversity, leaving an easier
 global-to-global matching task → less invariant, less semantic features (70.01% → **64.00%**).
 
-### Exercise 2 — MAE mask-ratio ablation (5 epochs each)
+### Exercise 2 — MAE mask-ratio ablation (50 epochs each)
 
 <!-- EX2_TABLE_START -->
 | Mask Ratio | Recon Loss | Linear Eval Acc |
 |---|---|---|
-| 0.25 | **0.3696** | **35.85%** |
-| 0.50 | **0.4479** | **37.01%** |
-| 0.75 | **0.5757** | **38.51%** |
+| 0.25 | **0.2660** | **44.08%** |
+| 0.50 | **0.3485** | **45.49%** |
+| 0.75 | **0.4813** | **48.14%** |
 <!-- EX2_TABLE_END -->
 
-> **Note on the two MAE `0.75` numbers.** This ablation trains **all three** mask ratios
-> for **5 epochs each** so they are compared apples-to-apples, so `0.75` here reads
-> **38.51%**. The **48.14%** for `mask=0.75` in the *Results* and *Exercise 3* tables is the
-> separate **50-epoch main MAE model** — same config, longer schedule. Both are correct;
-> they differ only in epoch budget (5 vs 50). Reconstruction loss likewise rises with the
-> mask ratio (harder task), which is expected and *not* a sign of worse representations.
+> All three mask ratios are trained for **50 epochs** so they compare apples-to-apples;
+> the `0.75` row is the same model reported as the **main MAE** in the *Results* and
+> *Exercise 3* tables (48.14%). Reconstruction loss rises with the mask ratio (a harder
+> task) while linear-eval accuracy *also* rises — i.e. lower reconstruction loss does
+> **not** mean better representations, which is the whole point of the next paragraph.
 
 **Why does very low masking (e.g. 0.25) give worse representations even though the reconstruction loss is lower?**
 With only 25% of patches hidden, almost every masked patch has unmasked neighbours, so
@@ -127,8 +125,9 @@ features are poor for classification. At 75% masking the local shortcut disappea
 filling in the missing patches requires reasoning about object shape and context across
 the whole image, producing stronger features. In short, **reconstruction loss measures
 pixel-copying difficulty, not representation quality** — the two are anti-correlated here,
-which is exactly why MAE uses an aggressive 75% mask. (The effect is modest at 5 epochs
-but monotonic: 35.85% < 37.01% < 38.51%.)
+which is exactly why MAE uses an aggressive 75% mask. (At 50 epochs the effect is clear
+and monotonic: 44.08% < 45.49% < 48.14%, even though reconstruction loss moves the
+opposite way: 0.2660 < 0.3485 < 0.4813.)
 
 ### Exercise 3 — Three-way comparison
 

@@ -37,13 +37,11 @@ Write-Host "==> MAE main (mask 0.75, 50 epochs)"
 Run --model mae --epochs 50 --train --num-workers $NW
 Run --model mae --weights saved/mae_encoder.pt --evaluate --linear --num-workers $NW
 
-Write-Host "==> MAE masking ablation (5 epochs each, per Exercise 2)"
-Run --model mae --mask-ratio 0.25 --epochs 5 --train --num-workers $NW
-Run --model mae --weights saved/mae_025_encoder.pt --evaluate --linear --num-workers $NW
-Run --model mae --mask-ratio 0.50 --epochs 5 --train --num-workers $NW
-Run --model mae --weights saved/mae_050_encoder.pt --evaluate --linear --num-workers $NW
-Run --model mae --mask-ratio 0.75 --epochs 5 --train --num-workers $NW
-Run --model mae --weights saved/mae_075_encoder.pt --evaluate --linear --num-workers $NW
+Write-Host "==> MAE masking ablation (50 epochs each; mask=0.75 reuses the main run above)"
+Run --model mae --mask-ratio 0.25 --epochs 50 --train --num-workers $NW
+Run --model mae --mask-ratio 0.25 --epochs 50 --weights saved/mae_025_encoder.pt --evaluate --linear --num-workers $NW
+Run --model mae --mask-ratio 0.50 --epochs 50 --train --num-workers $NW
+Run --model mae --mask-ratio 0.50 --epochs 50 --weights saved/mae_050_encoder.pt --evaluate --linear --num-workers $NW
 
 Write-Host "==> Generating all figures"
 Run --figures --num-workers $NW
