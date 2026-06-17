@@ -260,8 +260,8 @@ uv run python run.py --model mae  --weights saved/mae_encoder.pt --evaluate --li
 # Ablations
 uv run python run.py --model dino --no-centering --epochs 50 --train
 uv run python run.py --model dino --n-local 0    --epochs 50 --train
-uv run python run.py --model mae  --mask-ratio 0.25 --epochs 5 --train
-uv run python run.py --model mae  --mask-ratio 0.50 --epochs 5 --train
+uv run python run.py --model mae  --mask-ratio 0.25 --epochs 50 --train
+uv run python run.py --model mae  --mask-ratio 0.50 --epochs 50 --train
 
 # Regenerate every figure from the saved checkpoints + results.json
 uv run python run.py --figures
