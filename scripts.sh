@@ -18,8 +18,8 @@ cd "$(dirname "$0")"
 PY="${PY:-uv run python}"   # interpreter (e.g. PY="python" or PY=".venv/Scripts/python.exe")
 NW="${NW:-8}"               # DataLoader workers
 
-echo "==> SimCLR (comparison baseline, 30 epochs)"
-$PY run.py --model simclr --epochs 30 --train --num-workers "$NW"
+echo "==> SimCLR (comparison baseline, 50 epochs)"
+$PY run.py --model simclr --epochs 50 --train --num-workers "$NW"
 $PY run.py --model simclr --weights saved/simclr.pt --evaluate --linear --num-workers "$NW"
 
 echo "==> DINO default (50 epochs)"

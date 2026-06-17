@@ -17,8 +17,8 @@ Set-Location $PSScriptRoot
 $NW = 8                                   # DataLoader workers
 function Run { uv run python run.py @args }   # interpreter: edit to "python run.py @args" if not using uv
 
-Write-Host "==> SimCLR (comparison baseline, 30 epochs)"
-Run --model simclr --epochs 30 --train --num-workers $NW
+Write-Host "==> SimCLR (comparison baseline, 50 epochs)"
+Run --model simclr --epochs 50 --train --num-workers $NW
 Run --model simclr --weights saved/simclr.pt --evaluate --linear --num-workers $NW
 
 Write-Host "==> DINO default (50 epochs)"

@@ -27,7 +27,7 @@ probing** (freeze the encoder, train a single linear layer with labels).
 | MAE mask=0.25 | 44.08% | 7.1s | masking ablation |
 <!-- RESULTS_TABLE_END -->
 
-*DINO variants & MAE (all mask ratios): 50 epochs; SimCLR: 30 epochs. Full measured
+*All models (SimCLR, DINO variants, MAE all mask ratios): 50 epochs. Full measured
 numbers — including SimCLR and the three-way comparison — are in
 [results/results.json](results/results.json) and in the notebook's exercise tables.*
 
@@ -137,8 +137,8 @@ opposite way: 0.2660 < 0.3485 < 0.4813.)
 | Backbone | ResNet-18 | ViT-Tiny | ViT |
 | Needs negative pairs? | **Yes** | No | No |
 | Needs EMA teacher? | No | **Yes** | No |
-| Linear Eval Accuracy | **73.12%** | **70.01%** | **48.14%** |
-| Training time/epoch | **19.9s** | **82.2s** | **13.4s** |
+| Linear Eval Accuracy | **75.86%** | **70.01%** | **48.14%** |
+| Training time/epoch | **19.6s** | **82.2s** | **13.4s** |
 | t-SNE cluster quality (1–5) | 4 | 4 | 2 |
 | Has interpretable attention maps? | No | **Yes** | No\* |
 <!-- EX3_TABLE_END -->
